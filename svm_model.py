@@ -6,7 +6,7 @@ class SvmModel(Model):
 
     def __init__(self, X, y):
         Model.__init__(self, X, y)
-        self.classifier = svm.SVC(gamma=1000, verbose=3)
+        self.classifier = svm.SVC(verbose=3)
 
     def preprocess(self):
         self.X = numpy.log(self.X.abs()) * numpy.sign(self.X)
