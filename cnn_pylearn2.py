@@ -42,11 +42,12 @@ class CNNPylearnModel(Model):
                        }
                       ]
             },
-            algorithm: !obj:pylearn2.training_algorithms.bgd.BGD {
-              batch_size: 10000,
-              line_search_mode: 'exhaustive',
-              conjugate: 1,
-              updates_per_batch: 10,
+            algorithm: !obj:pylearn2.training_algorithms.sgd.SGD {
+              batch_size: 100,
+              learning_rate: .01,
+              learning_rule: !obj:pylearn2.training_algorithms.learning_rule.Momentum {
+                  init_momentum: 0.5,
+              },
               monitoring_dataset:
                   {
                       'train' : *train,
@@ -57,6 +58,14 @@ class CNNPylearnModel(Model):
                               path: 'csv/img_test.csv'
                       }
                   },
+              cost: !obj:pylearn2.costs.cost.SumOfCosts { costs: [
+                  !obj:pylearn2.costs.cost.MethodCost {
+                      method: 'cost_from_X'
+                  }, !obj:pylearn2.costs.mlp.WeightDecay {
+                      coeffs: [ .00005, .00005, .00005 ]
+                  }
+                ]
+              },
               termination_criterion: !obj:pylearn2.termination_criteria.And {
                   criteria: [
                       !obj:pylearn2.termination_criteria.MonitorBased {
