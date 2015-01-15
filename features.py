@@ -46,7 +46,7 @@ def transform_state(state_name, state_img):
     # 3) Translate
     trans_distances = range(200)
     numpy.random.shuffle(trans_distances)
-    trans_distances = trans_distances[0:50]
+    trans_distances = trans_distances[0:10]
     translations_all = itertools.product(trans_distances, trans_distances)
     translations = numpy.array( [translate(state_img, dx, dy) for dx, dy in translations_all] )
     #translations["Method"] = "Translate"
