@@ -12,13 +12,7 @@ class CNNModel(Model):
 
     def __init__(self, X, y):
         Model.__init__(self, X, y)
-
-        # Convert state names into numbers
-        unique_states = set(self.y)
-        state_dict = dict(zip(unique_states, range(len(unique_states))))
-        self.y = map(lambda a: state_dict[a], self.y)
-        self.y = numpy.array(self.y, dtype=numpy.int32)
-        
+      
         self.classifier = NeuralNet(
             layers = [
                 ("input", layers.InputLayer),
@@ -35,7 +29,6 @@ class CNNModel(Model):
             input_shape=(None, 1, 60, 60),
             conv1_num_filters=32, conv1_filter_size=(3, 3), pool1_ds=(2, 2),
             conv2_num_filters=64, conv2_filter_size=(2, 2), pool2_ds=(2, 2),
-            conv3_num_filters=128, conv3_filter_size=(2, 2), pool3_ds=(2, 2),
            
 	          dropout1_p=0.1,
       	    dropout2_p=0.2,
@@ -53,8 +46,19 @@ class CNNModel(Model):
 
 
     def preprocess(self):
-        self.X = numpy.log(self.X.abs()) * numpy.sign(self.X)
+        # Convert state names into numbers
+        unique_states = set(self.y)
+        state_dict = dict(zip(unique_states, range(len(unique_states))))
+        self.y = map(lambda a: state_dict[a], self.y)
+        self.y = numpy.array(self.y, dtype=numpy.int32)
+ 
+        #self.X = numpy.log(self.X.abs()) * numpy.sign(self.X)
         Model.preprocess(self)
         scaler = preprocessing.StandardScaler()
         self.X_train = scaler.fit_transform(self.X_train)
         self.X_test = scaler.transform(self.X_test)
+
+        # reshape
+        self.X_train = self.X_train.reshape(-1, 1, 60, 60)
+        self.X_test  = self.X_test.reshape(-1, 1, 60, 60)
+
