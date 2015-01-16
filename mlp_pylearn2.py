@@ -23,7 +23,7 @@ class MLPPylearnModel(Model):
                        !obj:pylearn2.models.mlp.Sigmoid {
                            layer_name: 'h0',
                            dim: 100,
-                           irange: .05,
+                           irange: .01,
                        },
 
                        !obj:pylearn2.models.mlp.Softmax {
