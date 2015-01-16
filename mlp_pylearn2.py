@@ -35,8 +35,8 @@ class MLPPylearnModel(Model):
               nvis: 3600,
             },
             algorithm: !obj:pylearn2.training_algorithms.sgd.SGD {
-              batch_size: 100,
-              learning_rate: .1,
+              batch_size: 50,
+              learning_rate: .2,
               learning_rule: !obj:pylearn2.training_algorithms.learning_rule.Momentum {
                   init_momentum: 0.5,
               },
@@ -52,11 +52,8 @@ class MLPPylearnModel(Model):
                   },
               termination_criterion: !obj:pylearn2.termination_criteria.And {
                   criteria: [
-                      !obj:pylearn2.termination_criteria.MonitorBased {
-                          channel_name: "valid_y_misclass"
-                      },
                       !obj:pylearn2.termination_criteria.EpochCounter {
-                          max_epochs: 10000
+                          max_epochs: 100
                       }
                   ]
               }
