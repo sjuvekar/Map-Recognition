@@ -22,12 +22,16 @@ class Model(object):
         return self.classifier.score(self.X_test, self.y_test)
 
     def predict(self):
-        y_pred = self.classifier.predict(self.X_test)
-        
-    def model_stats(self):
-        y_pred = self.classifier.predict(self.X_test)
+        return self.classifier.predict(self.X_test)
+
+    def confusion_matrix(self, y_pred):
         labels = list(sorted(set(self.y)))
         cm = confusion_matrix(self.y_test.astype(str), y_pred.astype(str), labels=labels)
+        return (cm, labels)
+
+    def model_stats(self):
+        y_pred = self.predict()
+        (cm, labels) = self.confusion_matrix(y_pred)
         fig = plt.figure(figsize=(8,8))
 
         ax1=fig.add_subplot(111)
