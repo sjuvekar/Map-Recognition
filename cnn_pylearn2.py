@@ -35,6 +35,14 @@ class CNNPylearnModel(MLPPylearnModel):
                            pool_stride: [2, 2],
                            irange: .05
                        },
+                       !obj:pylearn2.models.mlp.ConvRectifiedLinear {
+                           layer_name: 'h4',
+                           output_channels: 64,
+                           kernel_shape: [5, 5],
+                           pool_shape: [4, 4],
+                           pool_stride: [2, 2],
+                           irange: .05
+                       },
                        !obj:pylearn2.models.mlp.Softmax {
                            layer_name: 'y',
                            n_classes: 50,
@@ -62,7 +70,7 @@ class CNNPylearnModel(MLPPylearnModel):
                   !obj:pylearn2.costs.cost.MethodCost {
                       method: 'cost_from_X'
                   }, !obj:pylearn2.costs.mlp.WeightDecay {
-                      coeffs: [ .00005, .00005, .00005 ]
+                      coeffs: [ .00005, .00005, .00005, 0.00005 ]
                   }
                 ]
               },
@@ -86,12 +94,4 @@ class CNNPylearnModel(MLPPylearnModel):
           }
           """
         self.classifier = yaml_parse.load(train)
-
-
-    def preprocess(self):
-        pass
-
-    def train(self):
-      self.classifier.main_loop()
-
-
+	self.model_path = "cnn_best.pkl"
