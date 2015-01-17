@@ -2,6 +2,9 @@ import numpy
 from sklearn import preprocessing
 from mlp_pylearn2 import MLPPylearnModel
 from pylearn2.config import yaml_parse
+from pylearn2.utils import serial
+from theano import tensor as T
+import theano
 
 class CNNPylearnModel(MLPPylearnModel):
 
@@ -95,3 +98,14 @@ class CNNPylearnModel(MLPPylearnModel):
           """
         self.classifier = yaml_parse.load(train)
 	self.model_path = "cnn_best.pkl"
+
+
+    def predict(self):
+        model = serial.load(self.model_path)
+        X = model.get_input_space().make_theano_batch()
+        Y = model.fprop( X )
+        Y = T.argmax( Y, axis = 1 )
+        f = theano.function( [X], Y )
+	x_len = len(self.X_test)
+        return f(numpy.array(self.X_test).reshape(x_len, 60, 60, 1).astype(numpy.float32))
+ 
