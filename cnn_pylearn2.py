@@ -1,12 +1,12 @@
 import numpy
 from sklearn import preprocessing
-from model import Model
+from mlp_pylearn2 import MLPPylearnModel
 from pylearn2.config import yaml_parse
 
-class CNNPylearnModel(Model):
+class CNNPylearnModel(MLPPylearnModel):
 
     def __init__(self, X, y):
-        Model.__init__(self, X, y)
+        MLPPylearnModel.__init__(self, X, y)
       
         train="""
           !obj:pylearn2.train.Train {
@@ -43,8 +43,8 @@ class CNNPylearnModel(Model):
                       ]
             },
             algorithm: !obj:pylearn2.training_algorithms.sgd.SGD {
-              batch_size: 100,
-              learning_rate: .01,
+              batch_size: 50,
+              learning_rate: .2,
               learning_rule: !obj:pylearn2.training_algorithms.learning_rule.Momentum {
                   init_momentum: 0.5,
               },
@@ -94,8 +94,4 @@ class CNNPylearnModel(Model):
     def train(self):
       self.classifier.main_loop()
 
-    def test(self):
-      pass
 
-    def model_stats(self):
-      pass
