@@ -46,6 +46,16 @@ class CNNPylearnModel(MLPPylearnModel):
                            pool_stride: [2, 2],
                            irange: .05
                        },
+                       !obj:pylearn2.models.mlp.Sigmoid {
+                           layer_name: 'h0',
+                           dim: 10000,
+                           irange: .05
+                       },
+                       !obj:pylearn2.models.mlp.Sigmoid {
+                           layer_name: 'h1',
+                           dim: 10000,
+                           irange: .05
+                       },
                        !obj:pylearn2.models.mlp.Softmax {
                            layer_name: 'y',
                            n_classes: 50,
@@ -73,7 +83,7 @@ class CNNPylearnModel(MLPPylearnModel):
                   !obj:pylearn2.costs.cost.MethodCost {
                       method: 'cost_from_X'
                   }, !obj:pylearn2.costs.mlp.WeightDecay {
-                      coeffs: [ .00005, .00005, .00005, 0.00005 ]
+                      coeffs: [ .00005, .00005, .00005, 0.00005, 0.00005, 0.00005 ]
                   }
                 ]
               },
