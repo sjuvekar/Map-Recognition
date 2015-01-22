@@ -2,6 +2,7 @@ import sys
 import pandas
 from svm_model import SvmModel
 from gradient_boosting_model import GradientBoostingModel
+from random_forest_model import RandomForestModel
 from mlp_model import MLPModel
 from mlp_pylearn2 import MLPPylearnModel
 from cnn_model import CNNModel
